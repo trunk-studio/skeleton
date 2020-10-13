@@ -34,7 +34,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Credits
 
-- [Trunksys](https://github.com/Trunksys)
+- [Trunk Studio](https://github.com/trunk-studio)
 - [All Contributors](../../contributors)
 
 ## License
