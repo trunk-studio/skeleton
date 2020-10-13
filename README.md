@@ -44,7 +44,6 @@ use NotificationChannels\AwsSns\SNSChannel;
 use NotificationChannels\AwsSns\Notifications\APNS;
 use NotificationChannels\AwsSns\Notifications\GCM;
 use NotificationChannels\AwsSns\Notifications\SMS;
-use NotificationChannels\AwsSns\Notifications\Email;
 
 class AccountApproved extends Notification
 {
@@ -65,7 +64,7 @@ class AccountApproved extends Notification
 }
 ```
 
-SNS support custom messages for specific endpoints. Therefore, you can setup a custom message for various platforms. For instance, you can configure a custom GCM push notification that will be send to the subscribers of the topic that are registered via GCM. Currently, APNS, GCM, SMS and Email are implemented. Other endpoints that are supported by AWS will be added later.
+SNS support custom messages for specific endpoints. Therefore, you can setup a custom message for various platforms. For instance, you can configure a custom GCM push notification that will be send to the subscribers of the topic that are registered via GCM. Currently, APNS, GCM, and SMS are implemented. Other endpoints that are supported by AWS will be added later.
 
 ```
 public function toSNS($notifiable)
@@ -83,8 +82,7 @@ public function toSNS($notifiable)
                                 ->addCustomPayload('custom2', 'test value 2'))
                 ->gcmMessage((new GCM)
                                 ->message('GCM custom message'))
-                ->smsMessage(new SMS('SMS custom message'))
-                ->emailMessage(new Email('Email custom message'));
+                ->smsMessage(new SMS('SMS custom message'));
 }
 
 ```
@@ -93,7 +91,7 @@ public function toSNS($notifiable)
 
 ##### Methods of generic SNS notifications
 
--   `subeject()`: Subject of the notification. Required for email notification endpoints.
+-   `subeject()`: Subject of the notification.
 -   `message()`: Default message of the notification.
 -   `topicArn()`: Topic that notification will be send to.
 -   `targetArn()`: A specific target ARN, if you want to send notification to a specific subscriber.
@@ -103,7 +101,6 @@ public function toSNS($notifiable)
 -   `apnsMessage()`: Custom APNS message.
 -   `gcmMessage()`: Custom GCM message.
 -   `smsMessage()`: Custom SMS message.
--   `emailMessage()`: Custom Email message.
 
 ##### Methods of APNS notifications
 
@@ -124,10 +121,6 @@ public function toSNS($notifiable)
 ##### Methods of SMS notifications
 
 -   `message()`: SMS custom message.
-
-##### Methods of Email notifications
-
--   `message()`: Email custom message.
 
 For further details of each method, please refer to [SNS PHP SDK](#http://docs.aws.amazon.com/aws-sdk-php/v3/api/api-sns-2010-03-31.html#publish).
 

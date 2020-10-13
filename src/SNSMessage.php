@@ -6,7 +6,6 @@ use Aws\Sns\Message;
 use NotificationChannels\AwsSns\Notifications\GCM;
 use NotificationChannels\AwsSns\Notifications\SMS;
 use NotificationChannels\AwsSns\Notifications\APNS;
-use NotificationChannels\AwsSns\Notifications\Email;
 use NotificationChannels\AwsSns\Exceptions\InvalidNotificationFormat;
 
 class SNSMessage
@@ -67,7 +66,7 @@ class SNSMessage
     }
 
     /**
-     * Set the message subject. Required only for email messages.
+     * Set the message subject.
      *
      * @param string $value
      *
