@@ -7,6 +7,7 @@ use Aws\Sns\SnsClient;
 use Aws\Sns\Exception\SnsException;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\AwsSns\Exceptions\CouldNotSendNotification;
+use function GuzzleHttp\json_encode;
 
 class SNSChannel
 {
@@ -34,25 +35,39 @@ class SNSChannel
         try {
             $response = $this->sns->publish($snsMessage->toArray());
 
+            if (method_exists($notification, 'save')) {
+                $notification->setIsSent(true)->save();
+            }
+
             return $response;
-        } catch (Exception $exception) {
+        } catch (\Throwable $exception) {
+
+            if (method_exists($notification, 'save')) {
+                $notification
+                    ->setIsSent(false)
+                    ->setErrorMessage($exception->getMessage())
+                    ->save();
+            }
+
             if ($exception instanceof SnsException) {
                 if ($exception->isConnectionError()) {
                     throw CouldNotSendNotification::connectionFailed($exception);
                 }
 
                 switch ($exception->getAwsErrorCode()) {
-                    case 'InvalidParameterException' || 'InvalidParameterValueException':{
-                        throw CouldNotSendNotification::invalidParameter($exception);
-                    }break;
+                    case 'InvalidParameterException' || 'InvalidParameterValueException': {
+                            throw CouldNotSendNotification::invalidParameter($exception);
+                        }
+                        break;
 
-                    case 'AuthorizationErrorException':{
-                        throw CouldNotSendNotification::notAuthorized($exception);
-                    }break;
+                    case 'AuthorizationErrorException': {
+                            throw CouldNotSendNotification::notAuthorized($exception);
+                        }
+                        break;
 
-                    default:{
-                        throw CouldNotSendNotification::serviceRespondedWithAnError($exception);
-                    }
+                    default: {
+                            throw CouldNotSendNotification::serviceRespondedWithAnError($exception);
+                        }
                 }
             } else {
                 throw CouldNotSendNotification::genericError($exception);
