@@ -7,7 +7,6 @@ use Aws\Sns\SnsClient;
 use Aws\Sns\Exception\SnsException;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\AwsSns\Exceptions\CouldNotSendNotification;
-use function GuzzleHttp\json_encode;
 
 class SNSChannel
 {
