@@ -16,6 +16,9 @@ class SNSMessage
     /** @var string */
     protected $subject;
 
+    /** @var array */
+    protected $data;
+
     /** @var string */
     protected $topicArn;
 
@@ -75,6 +78,20 @@ class SNSMessage
     public function subject($value)
     {
         $this->subject = $value;
+
+        return $this;
+    }
+
+    /**
+     * Set the message payload data.
+     *
+     * @param array $value
+     *
+     * @return $this
+     */
+    public function data($value)
+    {
+        $this->data = $value;
 
         return $this;
     }
@@ -231,7 +248,18 @@ class SNSMessage
             // GCM Custom Message
             if (isset($this->gcmMessage)) {
                 $jsonMessage['GCM'] = $this->gcmMessage->toJSON();
+            } else {
+                $jsonMessage['GCM'] = json_encode([
+                    'data' => [
+                        'subject' => $this->subject,
+                        'message' => $this->message,
+                        'data' => $this->data,
+                    ]
+                ]);
             }
+
+            \Log::debug("============ jsonMessage['GCM'] ===========");
+            \Log::debug($jsonMessage['GCM']);
 
             // SMS Custom Message
             if (isset($this->smsMessage)) {
