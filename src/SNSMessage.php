@@ -258,9 +258,6 @@ class SNSMessage
                 ]);
             }
 
-            \Log::debug("============ jsonMessage['GCM'] ===========");
-            \Log::debug($jsonMessage['GCM']);
-
             // SMS Custom Message
             if (isset($this->smsMessage)) {
                 $jsonMessage['sms'] = $this->smsMessage->getMessage();
