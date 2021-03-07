@@ -250,10 +250,14 @@ class SNSMessage
                 $jsonMessage['GCM'] = $this->gcmMessage->toJSON();
             } else {
                 $jsonMessage['GCM'] = json_encode([
+                    'notification' => [
+                        'title' => $this->subject,
+                        'body' => $this->message,
+                    ],
                     'data' => [
                         'subject' => $this->subject,
                         'message' => $this->message,
-                        'data' => $this->data,
+                        'payload' => $this->data,
                     ]
                 ]);
             }
