@@ -12,9 +12,9 @@
         }
     ],
     "require": {
-        "php": ">=7.2",
-        "illuminate/notifications": "~6.0 || ~7.0 || ~8.0",
-        "illuminate/support": "~6.0 || ~7.0 || ~8.0"
+        "php": "^8.0.2",
+        "illuminate/notifications": "^9.4",
+        "illuminate/support": "^9.4"
     },
     "require-dev": {
         "mockery/mockery": "^1.0",
@@ -36,5 +36,7 @@
     },
     "config": {
         "sort-packages": true
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
